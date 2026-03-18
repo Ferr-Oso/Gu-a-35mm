@@ -1,0 +1,98 @@
+[
+  {
+    "id": "kodak-portra-400",
+    "brand": "Kodak",
+    "name": "Portra 400",
+    "iso": 400,
+    "type": "Color",
+    "format": "35mm",
+    "description": "El favorito de los fotógrafos de retrato. Tonos piel naturales, grano fino para su ISO y una latitud de exposición increíble.",
+    "tags": ["retrato", "bodas", "natural light"],
+    "palette": ["#E8D5B7", "#C4956A", "#8B6347"],
+    "images": []
+  },
+  {
+    "id": "kodak-gold-200",
+    "brand": "Kodak",
+    "name": "Gold 200",
+    "iso": 200,
+    "type": "Color",
+    "format": "35mm",
+    "description": "El rollo de verano. Tonos cálidos y dorados, perfecto para exteriores con buena luz. Económico y accesible.",
+    "tags": ["verano", "exteriores", "cotidiano"],
+    "palette": ["#F4D03F", "#E8A020", "#C47A1E"],
+    "images": []
+  },
+  {
+    "id": "kodak-ultramax-400",
+    "brand": "Kodak",
+    "name": "Ultramax 400",
+    "iso": 400,
+    "type": "Color",
+    "format": "35mm",
+    "description": "Versátil y con carácter. Saturación más alta que el Portra, ideal para foto callejera y situaciones variadas.",
+    "tags": ["street", "versátil", "urbano"],
+    "palette": ["#2E86AB", "#A23B72", "#F18F01"],
+    "images": []
+  },
+  {
+    "id": "fuji-superia-400",
+    "brand": "Fujifilm",
+    "name": "Superia 400",
+    "iso": 400,
+    "type": "Color",
+    "format": "35mm",
+    "description": "El clásico de Fuji. Verdes y azules ligeramente potenciados, con una firma muy reconocible.",
+    "tags": ["cotidiano", "versátil", "japonés"],
+    "palette": ["#4A7C59", "#2D5F8A", "#E8E4D9"],
+    "images": []
+  },
+  {
+    "id": "fuji-provia-100",
+    "brand": "Fujifilm",
+    "name": "Provia 100F",
+    "iso": 100,
+    "type": "Diapositiva",
+    "format": "35mm",
+    "description": "Diapositiva de alta fidelidad. Colores neutros y precisos, contraste moderado y un grano casi invisible.",
+    "tags": ["paisaje", "diapositiva", "alta fidelidad"],
+    "palette": ["#5B8DB8", "#7BA05B", "#D4B896"],
+    "images": []
+  },
+  {
+    "id": "fuji-velvia-50",
+    "brand": "Fujifilm",
+    "name": "Velvia 50",
+    "iso": 50,
+    "type": "Diapositiva",
+    "format": "35mm",
+    "description": "Saturación al máximo. Los paisajes cobran vida con este rollo legendario. Favorito de los fotógrafos de naturaleza.",
+    "tags": ["paisaje", "naturaleza", "saturado"],
+    "palette": ["#1A6B3C", "#C0392B", "#F39C12"],
+    "images": []
+  },
+  {
+    "id": "cinestill-800t",
+    "brand": "Cinestill",
+    "name": "800T",
+    "iso": 800,
+    "type": "Color",
+    "format": "35mm",
+    "description": "El rollo de la noche urbana. Anillos rojos en las luces artificiales, sensación de película de cine. Único e inconfundible.",
+    "tags": ["noche", "urbano", "cine"],
+    "palette": ["#1A1A2E", "#E74C3C", "#F39C12"],
+    "images": []
+  },
+  {
+    "id": "cinestill-50d",
+    "brand": "Cinestill",
+    "name": "50D",
+    "iso": 50,
+    "type": "Color",
+    "format": "35mm",
+    "description": "La versión de día de Cinestill. Colores cinematográficos con luz natural, grano muy fino y tonos suaves.",
+    "tags": ["día", "retrato", "cine"],
+    "palette": ["#87CEEB", "#DEB887", "#4682B4"],
+    "images": []
+  }
+]
