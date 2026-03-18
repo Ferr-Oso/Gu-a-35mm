@@ -1,0 +1,20 @@
+/* MODO OSCURO */
+[data-theme="dark"] {
+  --color-bg: #0F0F0F;
+  --color-surface: #1A1A1A;
+  --color-text-primary: #F0EDE8;
+  --color-text-secondary: #9A9590;
+  --color-text-muted: #5A5550;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.16);
+  --color-accent: #F0EDE8;
+}
+
+/* Sombras en modo oscuro */
+[data-theme="dark"] .film-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .modal-overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
