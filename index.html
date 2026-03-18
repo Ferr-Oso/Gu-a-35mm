@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Guía visual de rollos fotográficos de 35mm" />
+  <title>35mm Guide</title>
+
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dark-mode.css" />
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <header class="site-header">
+    <nav class="nav">
+      <a href="#" class="nav-logo">35mm Guide</a>
+      <div class="nav-controls">
+        <button class="view-toggle" id="viewToggle" aria-label="Cambiar vista">
+          <span class="view-label">3D</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+          <span class="theme-icon">☀</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-subtitle">35mm / Film Guide</p>
+    <h1 class="hero-title">!Every roll<br>has a type!.</h1>
+    <p class="hero-description">
+      Una guía visual para conocer, rollos fotográficos.
+    </p>
+    <div class="hero-meta">
+      <span>8 rollos</span>
+      <span>·</span>
+      <span>3 marcas</span>
+      <span>·</span>
+      <span>ISO 50 — 800</span>
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <section class="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="Kodak">Kodak</button>
+    <button class="filter-btn" data-filter="Fujifilm">Fujifilm</button>
+    <button class="filter-btn" data-filter="Cinestill">Cinestill</button>
+    <button class="filter-btn" data-filter="Diapositiva">Diapositiva</button>
+  </section>
+
+  <!-- GRID DE ROLLOS -->
+  <main class="films-container" id="filmsContainer">
+    <!-- Las cards desde JS -->
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div class="modal-content" id="modalContent">
+        <!-- Contenido dinámico desde JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>35mm Guide · Hecho con curiosidad analógica</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="js/film-data.js"></script>
+  <script src="js/3d-view.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
