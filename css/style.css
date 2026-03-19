@@ -6,8 +6,6 @@
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'DM Mono', monospace;
-
-/* Colores modo claro */
   --color-bg: #F5F2EE;
   --color-surface: #FFFFFF;
   --color-text-primary: #1A1A1A;
@@ -16,24 +14,23 @@
   --color-border: rgba(0, 0, 0, 0.08);
   --color-border-hover: rgba(0, 0, 0, 0.16);
   --color-accent: #1A1A1A;
-
-/* Espaciado */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
   --space-lg: 2.5rem;
   --space-xl: 4rem;
-
-/* Bordes */
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
-
-/* Transiciones */
   --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ===BASE=== */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--color-bg);
@@ -197,19 +194,12 @@ body {
   cursor: grab;
   will-change: transform;
   width: max-content;
+  overflow: visible;
 }
 
 .films-2d .film-card {
   width: 300px;
   flex-shrink: 0;
-}
-
-/* ===VISTA 3D=== */
-.films-3d {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
 }
 
 /* ===FILM CARD=== */
@@ -307,7 +297,7 @@ body {
   border: 1px solid var(--color-border);
 }
 
-/* ====MODAL=== */
+/* ===MODAL=== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -372,30 +362,6 @@ body {
   padding: var(--space-lg);
 }
 
-/* ===FOOTER=== */
-.site-footer {
-  padding: var(--space-lg);
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  letter-spacing: 0.05em;
-  border-top: 1px solid var(--color-border);
-}
-
-/* ===SCROLLBAR=== */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border-hover);
-  border-radius: 3px;
-}
 /* ===MODAL CONTENT=== */
 .modal-film-brand {
   font-family: var(--font-mono);
@@ -494,6 +460,33 @@ body {
   letter-spacing: 0.05em;
 }
 
+/* ===FOOTER=== */
+.site-footer {
+  padding: var(--space-lg);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  border-top: 1px solid var(--color-border);
+  position: relative;
+  z-index: 1;
+}
+
+/* ===SCROLLBAR=== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+  border-radius: 3px;
+}
+
 /* ===VISTA 3D ESPACIAL=== */
 .films-3d {
   position: fixed;
@@ -551,7 +544,8 @@ body {
   user-select: none;
   -webkit-user-select: none;
 }
-/* Ocultar hero y filtros en modo 3D */
+
+/* ===MODO 3D ACTIVO=== */
 body.mode-3d .hero,
 body.mode-3d .filters,
 body.mode-3d .site-footer {
@@ -565,4 +559,160 @@ body.mode-3d .films-container {
 body.mode-3d {
   overflow: hidden;
   width: 100%;
+}
+
+/* ===MEDIA QUERIES=== */
+
+/* Tablet — 768px a 1024px */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .films-2d .film-card {
+    width: 260px;
+  }
+
+  .filters {
+    padding: 0 var(--space-md) var(--space-md);
+  }
+
+  .hero {
+    padding: calc(60px + var(--space-lg)) var(--space-md) var(--space-lg);
+  }
+}
+
+/* Móvil — hasta 767px */
+@media (max-width: 767px) {
+  /* Nav */
+  .site-header {
+    padding: 0 var(--space-sm);
+  }
+
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .nav-logo {
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .view-toggle,
+  .theme-toggle {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  /* Hero */
+  .hero {
+    padding: calc(60px + var(--space-md)) var(--space-sm) var(--space-md);
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
+
+  .hero-description {
+    font-size: 0.9rem;
+  }
+
+  .hero-meta {
+    font-size: 0.7rem;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* Filtros */
+  .filters {
+    padding: 0 var(--space-sm) var(--space-sm);
+    gap: 6px;
+  }
+
+  .filter-btn {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.8rem;
+  }
+
+  /* Vista 2D */
+  .films-2d {
+    gap: 16px;
+    padding: 0 var(--space-sm) var(--space-md);
+  }
+
+  .films-2d .film-card {
+    width: 220px;
+  }
+
+  .film-card-name {
+    font-size: 1.1rem;
+  }
+
+  /* Vista 3D */
+  .films-3d {
+    top: 60px;
+    left: -20px;
+    width: calc(100vw + 40px);
+    height: calc(100vh - 60px);
+  }
+
+  /* Modal */
+  .modal {
+    max-height: 90vh;
+    border-radius: var(--radius-md);
+  }
+
+  .modal-content {
+    padding: var(--space-md);
+  }
+
+  .modal-film-name {
+    font-size: 1.6rem;
+  }
+
+  .modal-film-specs {
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .spec-value {
+    font-size: 1.1rem;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: var(--space-md);
+    font-size: 0.7rem;
+  }
+
+  /* Scroll extra */
+  .films-2d {
+    height: auto;
+  }
+}
+
+/* Móvil pequeño — hasta 380px */
+@media (max-width: 380px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .films-2d .film-card {
+    width: 200px;
+  }
+
+  .filter-btn {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.65rem;
+  }
 }
