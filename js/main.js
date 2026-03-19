@@ -218,8 +218,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 // VIEW TOGGLE
-const viewToggle = document.getElementById('viewToggle');
-
 viewToggle.addEventListener('click', () => {
   const container = document.getElementById('filmsContainer');
   const is2D = container.classList.contains('films-2d');
@@ -229,25 +227,14 @@ viewToggle.addEventListener('click', () => {
 
   if (is2D) {
     viewToggle.querySelector('.view-label').textContent = '2D';
+    document.body.classList.add('mode-3d');
     render3D(currentFilms);
   } else {
     viewToggle.querySelector('.view-label').textContent = '3D';
+    document.body.classList.remove('mode-3d');
     renderInfiniteScroll(currentFilms);
   }
 });
-
-// Placeholder 3D hasta la siguiente fase
-function render3D(films) {
-  const container = document.getElementById('filmsContainer');
-  container.innerHTML = '';
-  container.className = 'films-container films-3d';
-  container.innerHTML = `
-    <p style="font-family: var(--font-mono); font-size: 0.8rem; 
-    color: var(--color-text-muted); text-align: center; 
-    padding: 4rem; width: 100%;">Vista 3D — próximamente</p>
-  `;
-}
-
 // INIT
 async function init() {
   const films = await loadFilms();
