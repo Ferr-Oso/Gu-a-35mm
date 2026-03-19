@@ -1,10 +1,11 @@
-
 // THEME TOGGLE
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
+
 function getTheme() {
   return localStorage.getItem('theme') || 'dark';
 }
+
 function setTheme(theme) {
   html.setAttribute('data-theme', theme);
   localStorage.setItem('theme', theme);
@@ -24,6 +25,7 @@ async function loadFilms() {
   const films = await response.json();
   return films;
 }
+
 
 // CREAR CARD HTML
 function createCardHTML(film) {
@@ -67,7 +69,6 @@ function renderInfiniteScroll(films) {
   container.innerHTML = '';
   container.className = 'films-container films-2d';
 
-  // Duplica las cards para el loop
   const allCards = [...films, ...films, ...films];
   container.innerHTML = allCards.map(f => createCardHTML(f)).join('');
 
@@ -84,7 +85,7 @@ function renderInfiniteScroll(films) {
 
 function startInfiniteScroll(originalCount) {
   const container = document.getElementById('filmsContainer');
-  const cardWidth = 300 + 24; // ancho card + gap
+  const cardWidth = 300 + 24;
   const totalWidth = cardWidth * originalCount;
 
   cancelAnimationFrame(scrollAnimation);
@@ -92,9 +93,7 @@ function startInfiniteScroll(originalCount) {
   function loop() {
     if (!isPaused) {
       scrollPos += SCROLL_SPEED;
-      if (scrollPos >= totalWidth) {
-        scrollPos = 0;
-      }
+      if (scrollPos >= totalWidth) scrollPos = 0;
       container.style.transform = `translateX(-${scrollPos}px)`;
     }
     scrollAnimation = requestAnimationFrame(loop);
@@ -102,14 +101,12 @@ function startInfiniteScroll(originalCount) {
 
   loop();
 
-  // Pausa
   container.addEventListener('mouseenter', () => isPaused = true);
   container.addEventListener('mouseleave', () => {
     isPaused = false;
     isDown = false;
   });
 
-  // Arrastre manual
   container.addEventListener('mousedown', (e) => {
     isDown = true;
     isPaused = true;
@@ -122,10 +119,8 @@ function startInfiniteScroll(originalCount) {
     if (!isDown) return;
     const delta = startXDrag - e.clientX;
     scrollPos = scrollStartPos + delta;
-
     if (scrollPos < 0) scrollPos = 0;
     if (scrollPos >= totalWidth) scrollPos = totalWidth - 1;
-
     container.style.transform = `translateX(-${scrollPos}px)`;
   });
 
@@ -164,7 +159,7 @@ function initFilters(films) {
 }
 
 // MODAL
-function openModal(film) {
+async function openModal(film) {
   const overlay = document.getElementById('modalOverlay');
   const content = document.getElementById('modalContent');
 
@@ -194,19 +189,49 @@ function openModal(film) {
     <div class="modal-film-tags">
       ${film.tags.map(tag => `<span class="modal-tag">${tag}</span>`).join('')}
     </div>
-    <p class="modal-images-note">Próximamente: ejemplos fotográficos de este rollo.</p>
+    <div class="modal-images" id="modalImages">
+      <p class="modal-images-loading">Cargando ejemplos...</p>
+    </div>
   `;
 
   overlay.classList.add('active');
   isPaused = true;
   document.body.style.overflow = 'hidden';
+
+  const images = await fetchFilmImages(film);
+  const imagesContainer = document.getElementById('modalImages');
+
+  if (images.length > 0) {
+    imagesContainer.innerHTML = `
+      <p class="modal-images-title">Ejemplos fotográficos</p>
+      <div class="modal-images-grid">
+        ${images.map(img => `
+          <div class="modal-image-item">
+            <img src="${img.thumb}" alt="Ejemplo ${film.name}" loading="lazy" />
+            <p class="modal-image-credit">
+              <a href="${img.authorUrl}?utm_source=35mm_guide&utm_medium=referral" target="_blank">${img.author}</a>
+              · <a href="https://unsplash.com?utm_source=35mm_guide&utm_medium=referral" target="_blank">Unsplash</a>
+            </p>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } else {
+    imagesContainer.innerHTML = `
+      <p class="modal-images-note">No se encontraron ejemplos por ahora.</p>
+    `;
+  }
 }
 
 function closeModal() {
   const overlay = document.getElementById('modalOverlay');
   overlay.classList.remove('active');
   document.body.style.overflow = '';
-  setTimeout(() => { isPaused = false; }, 300);
+
+  const container = document.getElementById('filmsContainer');
+  if (container.classList.contains('films-2d')) {
+    setTimeout(() => { isPaused = false; }, 300);
+  }
 }
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -218,6 +243,8 @@ document.addEventListener('keydown', (e) => {
 });
 
 // VIEW TOGGLE
+const viewToggle = document.getElementById('viewToggle');
+
 viewToggle.addEventListener('click', () => {
   const container = document.getElementById('filmsContainer');
   const is2D = container.classList.contains('films-2d');
@@ -235,6 +262,7 @@ viewToggle.addEventListener('click', () => {
     renderInfiniteScroll(currentFilms);
   }
 });
+
 // INIT
 async function init() {
   const films = await loadFilms();
