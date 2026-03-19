@@ -185,14 +185,29 @@ body {
   color: var(--color-bg);
 }
 
-/* ===GRID DE FILMS=== */
-.films-container {
+/* ===VISTA 2D — SCROLL INFINITO=== */
+.films-2d {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 24px;
   padding: 0 var(--space-lg) var(--space-xl);
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-md);
+  cursor: grab;
+  will-change: transform;
+  width: max-content;
+}
+
+.films-2d .film-card {
+  width: 300px;
+  flex-shrink: 0;
+}
+
+/* ===VISTA 3D=== */
+.films-3d {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
 }
 
 /* ===FILM CARD=== */

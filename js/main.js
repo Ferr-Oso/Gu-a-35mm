@@ -1,11 +1,10 @@
+
 // THEME TOGGLE
 const themeToggle = document.getElementById('themeToggle');
 const html = document.documentElement;
-
 function getTheme() {
   return localStorage.getItem('theme') || 'dark';
 }
-
 function setTheme(theme) {
   html.setAttribute('data-theme', theme);
   localStorage.setItem('theme', theme);
@@ -26,20 +25,11 @@ async function loadFilms() {
   return films;
 }
 
-// RENDER CARDS
-function renderCards(films) {
-  const container = document.getElementById('filmsContainer');
-  container.innerHTML = '';
-
-  films.forEach(film => {
-    const card = document.createElement('div');
-    card.className = 'film-card';
-    card.setAttribute('data-brand', film.brand);
-    card.setAttribute('data-type', film.type);
-
-    const placeholderColor = film.palette[0] || '#ccc';
-
-    card.innerHTML = `
+// CREAR CARD HTML
+function createCardHTML(film) {
+  const placeholderColor = film.palette[0] || '#ccc';
+  return `
+    <div class="film-card" data-brand="${film.brand}" data-type="${film.type}" data-id="${film.id}">
       <div class="film-card-image-placeholder" style="background-color: ${placeholderColor}20;">
         <span>${film.brand} · ${film.name}</span>
       </div>
@@ -58,13 +48,94 @@ function renderCards(films) {
           <span>${film.format}</span>
         </div>
       </div>
-    `;
-
-    card.addEventListener('click', () => openModal(film));
-    container.appendChild(card);
-  });
+    </div>
+  `;
 }
 
+// RENDER 2D INFINITO
+let currentFilms = [];
+let scrollAnimation = null;
+let scrollPos = 0;
+let isPaused = false;
+let isDown = false;
+let startXDrag = 0;
+let scrollStartPos = 0;
+const SCROLL_SPEED = 0.5;
+
+function renderInfiniteScroll(films) {
+  const container = document.getElementById('filmsContainer');
+  container.innerHTML = '';
+  container.className = 'films-container films-2d';
+
+  // Duplica las cards para el loop
+  const allCards = [...films, ...films, ...films];
+  container.innerHTML = allCards.map(f => createCardHTML(f)).join('');
+
+  container.querySelectorAll('.film-card').forEach(card => {
+    const id = card.getAttribute('data-id');
+    const film = films.find(f => f.id === id);
+    card.addEventListener('click', () => {
+      if (!isDown) openModal(film);
+    });
+  });
+
+  startInfiniteScroll(films.length);
+}
+
+function startInfiniteScroll(originalCount) {
+  const container = document.getElementById('filmsContainer');
+  const cardWidth = 300 + 24; // ancho card + gap
+  const totalWidth = cardWidth * originalCount;
+
+  cancelAnimationFrame(scrollAnimation);
+
+  function loop() {
+    if (!isPaused) {
+      scrollPos += SCROLL_SPEED;
+      if (scrollPos >= totalWidth) {
+        scrollPos = 0;
+      }
+      container.style.transform = `translateX(-${scrollPos}px)`;
+    }
+    scrollAnimation = requestAnimationFrame(loop);
+  }
+
+  loop();
+
+  // Pausa
+  container.addEventListener('mouseenter', () => isPaused = true);
+  container.addEventListener('mouseleave', () => {
+    isPaused = false;
+    isDown = false;
+  });
+
+  // Arrastre manual
+  container.addEventListener('mousedown', (e) => {
+    isDown = true;
+    isPaused = true;
+    startXDrag = e.clientX;
+    scrollStartPos = scrollPos;
+    container.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    const delta = startXDrag - e.clientX;
+    scrollPos = scrollStartPos + delta;
+
+    if (scrollPos < 0) scrollPos = 0;
+    if (scrollPos >= totalWidth) scrollPos = totalWidth - 1;
+
+    container.style.transform = `translateX(-${scrollPos}px)`;
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDown) return;
+    isDown = false;
+    container.style.cursor = 'grab';
+    setTimeout(() => { isPaused = false; }, 800);
+  });
+}
 
 // FILTROS
 function initFilters(films) {
@@ -76,15 +147,21 @@ function initFilters(films) {
       btn.classList.add('active');
 
       const filter = btn.getAttribute('data-filter');
-      const filtered = filter === 'all'
+      currentFilms = filter === 'all'
         ? films
         : films.filter(f => f.brand === filter || f.type === filter);
 
-      renderCards(filtered);
+      cancelAnimationFrame(scrollAnimation);
+      scrollPos = 0;
+
+      if (document.getElementById('filmsContainer').classList.contains('films-2d')) {
+        renderInfiniteScroll(currentFilms);
+      } else {
+        render3D(currentFilms);
+      }
     });
   });
 }
-
 
 // MODAL
 function openModal(film) {
@@ -121,6 +198,7 @@ function openModal(film) {
   `;
 
   overlay.classList.add('active');
+  isPaused = true;
   document.body.style.overflow = 'hidden';
 }
 
@@ -128,22 +206,53 @@ function closeModal() {
   const overlay = document.getElementById('modalOverlay');
   overlay.classList.remove('active');
   document.body.style.overflow = '';
+  setTimeout(() => { isPaused = false; }, 300);
 }
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('modalOverlay').addEventListener('click', (e) => {
   if (e.target === e.currentTarget) closeModal();
 });
-
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal();
 });
 
+// VIEW TOGGLE
+const viewToggle = document.getElementById('viewToggle');
+
+viewToggle.addEventListener('click', () => {
+  const container = document.getElementById('filmsContainer');
+  const is2D = container.classList.contains('films-2d');
+
+  cancelAnimationFrame(scrollAnimation);
+  scrollPos = 0;
+
+  if (is2D) {
+    viewToggle.querySelector('.view-label').textContent = '2D';
+    render3D(currentFilms);
+  } else {
+    viewToggle.querySelector('.view-label').textContent = '3D';
+    renderInfiniteScroll(currentFilms);
+  }
+});
+
+// Placeholder 3D hasta la siguiente fase
+function render3D(films) {
+  const container = document.getElementById('filmsContainer');
+  container.innerHTML = '';
+  container.className = 'films-container films-3d';
+  container.innerHTML = `
+    <p style="font-family: var(--font-mono); font-size: 0.8rem; 
+    color: var(--color-text-muted); text-align: center; 
+    padding: 4rem; width: 100%;">Vista 3D — próximamente</p>
+  `;
+}
 
 // INIT
 async function init() {
   const films = await loadFilms();
-  renderCards(films);
+  currentFilms = films;
+  renderInfiniteScroll(films);
   initFilters(films);
 }
 
