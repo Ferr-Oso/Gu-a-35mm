@@ -7,7 +7,7 @@
     "type": "Color",
     "format": "35mm",
     "description": "El favorito de los fotógrafos de retrato. Tonos piel naturales, grano fino para su ISO y una latitud de exposición increíble.",
-    "tags": ["retrato", "bodas", "natural light"],
+    "tags": ["retrato", "diurno", "natural light"],
     "palette": ["#E8D5B7", "#C4956A", "#8B6347"],
     "images": []
   },
@@ -43,7 +43,7 @@
     "type": "Color",
     "format": "35mm",
     "description": "El clásico de Fuji. Verdes y azules ligeramente potenciados, con una firma muy reconocible.",
-    "tags": ["cotidiano", "versátil", "japonés"],
+    "tags": ["cotidiano", "versátil", "clásico"],
     "palette": ["#4A7C59", "#2D5F8A", "#E8E4D9"],
     "images": []
   },
@@ -67,7 +67,7 @@
     "type": "Diapositiva",
     "format": "35mm",
     "description": "Saturación al máximo. Los paisajes cobran vida con este rollo legendario. Favorito de los fotógrafos de naturaleza.",
-    "tags": ["paisaje", "naturaleza", "saturado"],
+    "tags": ["vividez", "naturaleza", "saturado"],
     "palette": ["#1A6B3C", "#C0392B", "#F39C12"],
     "images": []
   },
@@ -91,7 +91,7 @@
     "type": "Color",
     "format": "35mm",
     "description": "La versión de día de Cinestill. Colores cinematográficos con luz natural, grano muy fino y tonos suaves.",
-    "tags": ["día", "retrato", "cine"],
+    "tags": ["diurno", "retrato", "cine"],
     "palette": ["#87CEEB", "#DEB887", "#4682B4"],
     "images": []
   }
